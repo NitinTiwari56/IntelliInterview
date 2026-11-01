@@ -1,0 +1,7 @@
+info:
+  name: ADMIN (token ADMIN role ka chahiye)
+  type: folder
+  seq: 15
+
+request:
+  auth: inherit

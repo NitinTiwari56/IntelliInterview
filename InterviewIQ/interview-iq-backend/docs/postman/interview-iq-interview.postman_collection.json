@@ -1,0 +1,351 @@
+{
+  "info": {
+    "name": "Interview IQ - Interview (via gateway 8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "sessionId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"gw-test@example.com\",\n  \"password\": \"Strong@123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('token', pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Health (expect 200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. START technical (expect 201, currentQuestionNumber 1)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/sessions/start",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "sessions",
+            "start"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"interviewType\": \"TECHNICAL\",\n  \"inputMode\": \"TEXT\",\n  \"targetRole\": \"Backend Engineer\",\n  \"maxQuestions\": 3\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('sessionId', pm.response.json().sessionId);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. ANSWER (expect score, feedback, nextQuestion). Isko 3 baar chalao, aakhri pe completed:true + sessionSummary",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/sessions/{{sessionId}}/answers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "sessions",
+            "{{sessionId}}",
+            "answers"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answer\": \"A HashMap stores key-value pairs in an array of buckets. The key's hashCode decides the bucket, and collisions are handled with a linked list or a tree when a bucket grows large. Average get and put are O(1).\"\n}"
+        }
+      }
+    },
+    {
+      "name": "4b. ANSWER khali (expect 400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/sessions/{{sessionId}}/answers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "sessions",
+            "{{sessionId}}",
+            "answers"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answer\": \"   \"\n}"
+        }
+      }
+    },
+    {
+      "name": "5. Session detail (questions[] with scores)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/sessions/{{sessionId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "sessions",
+            "{{sessionId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. My sessions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/sessions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "sessions"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. My summary",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/summary",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "summary"
+          ]
+        }
+      }
+    },
+    {
+      "name": "8. START HR",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/sessions/start",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "sessions",
+            "start"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"interviewType\": \"HR\",\n  \"maxQuestions\": 2\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('sessionId', pm.response.json().sessionId);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. END early (expect status INCOMPLETE)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/sessions/{{sessionId}}/end",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "sessions",
+            "{{sessionId}}",
+            "end"
+          ]
+        }
+      }
+    },
+    {
+      "name": "10. Galat interviewType (expect 400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/interview/sessions/start",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "interview",
+            "sessions",
+            "start"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"interviewType\": \"FOO\"\n}"
+        }
+      }
+    }
+  ]
+}

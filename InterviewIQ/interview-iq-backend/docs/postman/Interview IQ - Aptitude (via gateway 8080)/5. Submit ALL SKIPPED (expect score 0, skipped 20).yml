@@ -1,0 +1,26 @@
+info:
+  name: 5. Submit ALL SKIPPED (expect score 0, skipped 20)
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{baseUrl}}/aptitude/tests/{{testId}}/submit"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "answers": []
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

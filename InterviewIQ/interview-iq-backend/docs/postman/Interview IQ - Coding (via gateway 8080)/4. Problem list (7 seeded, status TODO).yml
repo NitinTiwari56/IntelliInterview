@@ -1,0 +1,19 @@
+info:
+  name: 4. Problem list (7 seeded, status TODO)
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{baseUrl}}/coding/problems"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

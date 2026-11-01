@@ -1,0 +1,36 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: coding-service
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/coding_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: false
+
+judge0:
+  # Public community instance: free, bina key ke, par per-IP throttling hoti hai (demo/dev ke liye theek).
+  # Self-host Judge0 ho toh yahan uska URL do (jaise http://localhost:2358).
+  url: ${JUDGE0_URL:https://ce.judge0.com}
+  # Auth chahiye ho toh (self-hosted ya paid): header ka naam + key. Khali chhodo toh header nahi jayega.
+  api-key-header: ${JUDGE0_API_KEY_HEADER:X-Auth-Token}
+  api-key: ${JUDGE0_API_KEY:}
+  poll-interval-ms: 700
+  max-wait-seconds: 30
+  # Judge0 ke language IDs. Verify karo: browser mein <judge0 url>/languages kholo.
+  language-ids:
+    java: 62
+    python: 71
+    cpp: 54
+    c: 50
+    javascript: 63
+
+coding:
+  seed-sample-problems: true # table khali ho toh 7 sample problems daal deta hai
+  submit-cooldown-seconds: 5 # ek user har 5 sec mein ek hi run/submit (Judge0 throttling se bachne ke liye)

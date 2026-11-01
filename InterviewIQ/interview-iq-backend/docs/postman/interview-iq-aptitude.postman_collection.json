@@ -1,0 +1,381 @@
+{
+  "info": {
+    "name": "Interview IQ - Aptitude (via gateway 8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "testId",
+      "value": ""
+    },
+    {
+      "key": "qIndex",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"gw-test@example.com\",\n  \"password\": \"Strong@123\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('token', pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Health (expect 200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Start test (expect 200, ek question, index 1, remainingSeconds ~120, NO correct answer)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/tests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "tests"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var r = pm.response.json();",
+              "if (r.testId) pm.collectionVariables.set('testId', r.testId);",
+              "pm.collectionVariables.set('qIndex', r.question ? r.question.index : '');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Current (refresh jaisa; wahi question, remainingSeconds kam)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/tests/current",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "tests",
+            "current"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var r = pm.response.json();",
+              "if (r.testId) pm.collectionVariables.set('testId', r.testId);",
+              "pm.collectionVariables.set('qIndex', r.question ? r.question.index : '');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Start again = resume (wahi testId)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/tests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "tests"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var r = pm.response.json();",
+              "if (r.testId) pm.collectionVariables.set('testId', r.testId);",
+              "pm.collectionVariables.set('qIndex', r.question ? r.question.index : '');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. ANSWER current question (selectedIndex 0). Isko 20 baar chalao (Runner/repeat) -> end mein COMPLETED + result",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/tests/{{testId}}/answer",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "tests",
+            "{{testId}}",
+            "answer"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"questionIndex\": {{qIndex}},\n  \"selectedIndex\": 0\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var r = pm.response.json();",
+              "if (r.testId) pm.collectionVariables.set('testId', r.testId);",
+              "pm.collectionVariables.set('qIndex', r.question ? r.question.index : '');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6b. SKIP current (selectedIndex null)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/tests/{{testId}}/answer",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "tests",
+            "{{testId}}",
+            "answer"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"questionIndex\": {{qIndex}},\n  \"selectedIndex\": null\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var r = pm.response.json();",
+              "if (r.testId) pm.collectionVariables.set('testId', r.testId);",
+              "pm.collectionVariables.set('qIndex', r.question ? r.question.index : '');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6c. Stale questionIndex 99 (expect 409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/tests/{{testId}}/answer",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "tests",
+            "{{testId}}",
+            "answer"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"questionIndex\": 99,\n  \"selectedIndex\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "7. Review (test COMPLETE hone ke baad: correct answers + explanations)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/tests/{{testId}}/result",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "tests",
+            "{{testId}}",
+            "result"
+          ]
+        }
+      }
+    },
+    {
+      "name": "8. History",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/results",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "results"
+          ]
+        }
+      }
+    },
+    {
+      "name": "9. Category stats",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/stats",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "stats"
+          ]
+        }
+      }
+    }
+  ]
+}

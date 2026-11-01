@@ -1,0 +1,27 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: aptitude-service
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/aptitude_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+
+# Internal service (AI member ka). Frontend isko kabhi direct call nahi karega.
+question-service:
+  url: ${QUESTION_SERVICE_URL:http://localhost:8091}
+  read-timeout-ms: 60000 # Groq slow ho sakta hai
+
+aptitude:
+  question-count: 20 # locked decision: fixed 20 questions, default values
+  seconds-per-question: 120 # 20 questions x 2 min = 40 min total timer
+  grace-seconds: 15 # network delay ke liye extra time
+  min-valid-questions: 10 # validation ke baad itne se kam bache toh test nahi banega
+  auto-submit-check-ms: 30000 # expired tests ko server khud submit karta hai (browser band ho tab bhi)

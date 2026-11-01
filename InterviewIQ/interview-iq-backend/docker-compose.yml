@@ -1,0 +1,17 @@
+# MySQL ek hi container, har service ka apna alag schema (infra/mysql/init.sql dekho).
+# Chalane ke liye:  docker compose up -d
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: interview-iq-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./infra/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql_data:

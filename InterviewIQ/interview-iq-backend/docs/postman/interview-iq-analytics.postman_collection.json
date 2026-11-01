@@ -1,0 +1,162 @@
+{
+  "info": {
+    "name": "Interview IQ - Analytics (via gateway 8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"gw-test@example.com\",\n  \"password\": \"Strong@123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('token', pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Health (expect 200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/roadmap/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "analytics",
+            "roadmap",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. DASHBOARD (pehle ye). serviceStatus mein dekho kaunsi services AVAILABLE hain",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/dashboard",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "analytics",
+            "dashboard"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. ROADMAP (dashboard ke baad). Kuch data nahi ho toh genericStarter: true",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/roadmap",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "analytics",
+            "roadmap"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. REGENERATE (naye scores ke baad)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/roadmap/regenerate",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "analytics",
+            "roadmap",
+            "regenerate"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. No token (expect 401)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/dashboard",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "analytics",
+            "dashboard"
+          ]
+        }
+      }
+    }
+  ]
+}

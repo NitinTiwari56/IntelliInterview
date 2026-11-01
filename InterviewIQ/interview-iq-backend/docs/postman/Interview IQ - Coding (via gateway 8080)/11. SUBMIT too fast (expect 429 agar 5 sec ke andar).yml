@@ -1,0 +1,28 @@
+info:
+  name: 11. SUBMIT too fast (expect 429 agar 5 sec ke andar)
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{baseUrl}}/coding/problems/sum-of-two-numbers/submit"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "language": "python",
+        "sourceCode": "a, b = map(int, input().split())\nprint(a + b)"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

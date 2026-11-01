@@ -1,0 +1,47 @@
+info:
+  name: "7c. EDIT details: skills add karo (poora skills object bhejo). Phir 7b dobara: score badhna chahiye"
+  type: http
+  seq: 9
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/resume/details"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "skills": {
+          "languages": [
+            "Java",
+            "Python",
+            "C++"
+          ],
+          "frameworks": [
+            "Spring Boot"
+          ],
+          "toolsAndDatabases": [
+            "MySQL",
+            "Git",
+            "Docker"
+          ],
+          "coreSubjects": [
+            "Data Structures",
+            "Algorithms",
+            "DBMS",
+            "OOP"
+          ]
+        }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

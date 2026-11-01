@@ -1,0 +1,27 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/auth_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update # dev ke liye. Production mein "validate" use karna.
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+jwt:
+  # Kam se kam 32 characters. Real secret ko env variable (JWT_SECRET) se do, git mein mat daalo.
+  # API Gateway mein BHI yahi secret use hoga token verify karne ke liye.
+  secret: ${JWT_SECRET:interview-iq-dev-secret-change-me-please-32chars-min}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000} # 24 hours
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}

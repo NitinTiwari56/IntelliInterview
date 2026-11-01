@@ -1,0 +1,32 @@
+opencollection: 1.0.0
+
+info:
+  name: Interview IQ - Aptitude (via gateway 8080)
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  variables:
+    - name: baseUrl
+      value: http://localhost:8080
+    - name: token
+      value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJndy10ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IlNUVURFTlQiLCJpYXQiOjE3OTEwMjA4ODMsImV4cCI6MTc5MTEwNzI4M30.x4UzzKOGN6CqP_r48ew5wSk6O0XnSE2nSmiL1ExkdkSe-wvm92S2gS6oOl2O2xgg
+    - name: testId
+      value:
+        type: number
+        data: "2"
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

@@ -1,0 +1,165 @@
+{
+  "info": {
+    "name": "Interview IQ - API Gateway (8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Register (public, via gateway)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Khushi\",\n  \"email\": \"gw-test@example.com\",\n  \"password\": \"Strong@123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "2. Login (public) - token milega",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"gw-test@example.com\",\n  \"password\": \"Strong@123\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('token', pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Protected, NO token (expect 401)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Protected, FAKE token (expect 401)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer abc.def.ghi"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. Protected, REAL token (expect NOT 401; 5xx ok agar service band hai)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/aptitude/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "aptitude",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. Admin path with STUDENT token (expect 403)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/admin/problems",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "admin",
+            "problems"
+          ]
+        }
+      }
+    }
+  ]
+}

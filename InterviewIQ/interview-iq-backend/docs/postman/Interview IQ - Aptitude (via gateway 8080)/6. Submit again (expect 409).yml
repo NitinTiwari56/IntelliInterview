@@ -1,0 +1,26 @@
+info:
+  name: 6. Submit again (expect 409)
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{baseUrl}}/aptitude/tests/{{testId}}/submit"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "answers": []
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

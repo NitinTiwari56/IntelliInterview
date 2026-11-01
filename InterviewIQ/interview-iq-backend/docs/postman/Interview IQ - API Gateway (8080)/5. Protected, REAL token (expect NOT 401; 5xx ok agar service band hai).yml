@@ -1,0 +1,18 @@
+info:
+  name: 5. Protected, REAL token (expect NOT 401; 5xx ok agar service band hai)
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{baseUrl}}/aptitude/health"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

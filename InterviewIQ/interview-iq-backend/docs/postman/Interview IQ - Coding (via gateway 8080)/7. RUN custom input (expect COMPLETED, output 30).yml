@@ -1,0 +1,29 @@
+info:
+  name: 7. RUN custom input (expect COMPLETED, output 30)
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{baseUrl}}/coding/problems/sum-of-two-numbers/run"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "language": "python",
+        "sourceCode": "a, b = map(int, input().split())\nprint(a + b)",
+        "customInput": "10 20\n"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

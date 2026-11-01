@@ -1,0 +1,462 @@
+{
+  "info": {
+    "name": "Interview IQ - Coding (via gateway 8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"gw-test@example.com\",\n  \"password\": \"Strong@123\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('token', pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Health (expect 200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Languages (starterCode milega)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/languages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "languages"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Problem list (7 seeded, status TODO)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4b. Filter EASY",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems?difficulty=EASY",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems?difficulty=EASY"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. Problem detail (sirf sample cases dikhte hain)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems/sum-of-two-numbers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems",
+            "sum-of-two-numbers"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. RUN correct python (expect ACCEPTED, 2 PASSED) - 5 sec wait karke",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems/sum-of-two-numbers/run",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems",
+            "sum-of-two-numbers",
+            "run"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"language\": \"python\",\n  \"sourceCode\": \"a, b = map(int, input().split())\\nprint(a + b)\"\n}"
+        }
+      }
+    },
+    {
+      "name": "7. RUN custom input (expect COMPLETED, output 30)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems/sum-of-two-numbers/run",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems",
+            "sum-of-two-numbers",
+            "run"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"language\": \"python\",\n  \"sourceCode\": \"a, b = map(int, input().split())\\nprint(a + b)\",\n  \"customInput\": \"10 20\\n\"\n}"
+        }
+      }
+    },
+    {
+      "name": "8. SUBMIT wrong (expect WRONG_ANSWER, failedCase)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems/sum-of-two-numbers/submit",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems",
+            "sum-of-two-numbers",
+            "submit"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"language\": \"python\",\n  \"sourceCode\": \"print(0)\"\n}"
+        }
+      }
+    },
+    {
+      "name": "9. SUBMIT correct (expect ACCEPTED 4/4)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems/sum-of-two-numbers/submit",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems",
+            "sum-of-two-numbers",
+            "submit"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"language\": \"python\",\n  \"sourceCode\": \"a, b = map(int, input().split())\\nprint(a + b)\"\n}"
+        }
+      }
+    },
+    {
+      "name": "10. SUBMIT compile error C++ (expect COMPILATION_ERROR)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems/sum-of-two-numbers/submit",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems",
+            "sum-of-two-numbers",
+            "submit"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"language\": \"cpp\",\n  \"sourceCode\": \"int main( { return 0; }\"\n}"
+        }
+      }
+    },
+    {
+      "name": "11. SUBMIT too fast (expect 429 agar 5 sec ke andar)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/problems/sum-of-two-numbers/submit",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "problems",
+            "sum-of-two-numbers",
+            "submit"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"language\": \"python\",\n  \"sourceCode\": \"a, b = map(int, input().split())\\nprint(a + b)\"\n}"
+        }
+      }
+    },
+    {
+      "name": "12. My submissions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/submissions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "submissions"
+          ]
+        }
+      }
+    },
+    {
+      "name": "13. Stats",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coding/stats",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "coding",
+            "stats"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ADMIN (token ADMIN role ka chahiye)",
+      "item": [
+        {
+          "name": "A1. Admin list",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/coding/admin/problems",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "coding",
+                "admin",
+                "problems"
+              ]
+            }
+          }
+        },
+        {
+          "name": "A2. Bulk import (docs/problems template)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/coding/admin/problems/import",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "coding",
+                "admin",
+                "problems",
+                "import"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"problems\": [\n    {\n      \"slug\": \"count-vowels\",\n      \"title\": \"Count Vowels\",\n      \"description\": \"Ek string me kitne vowels (a, e, i, o, u) hain, ginke print karo.\\n\\n**Input:** Ek line mein lowercase letters aur spaces wali string.\\n\\n**Output:** Vowels ki ginti.\\n\\n**Constraints:** 1 <= length <= 1000\\n\\n**Example**\\n```\\nInput:  hello world\\nOutput: 3\\n```\",\n      \"difficulty\": \"EASY\",\n      \"topic\": \"Strings\",\n      \"published\": true,\n      \"testCases\": [\n        {\n          \"input\": \"hello world\\n\",\n          \"expectedOutput\": \"3\\n\",\n          \"sample\": true\n        },\n        {\n          \"input\": \"rhythm\\n\",\n          \"expectedOutput\": \"0\\n\",\n          \"sample\": true\n        },\n        {\n          \"input\": \"aeiou\\n\",\n          \"expectedOutput\": \"5\\n\",\n          \"sample\": false\n        },\n        {\n          \"input\": \"interview iq\\n\",\n          \"expectedOutput\": \"5\\n\",\n          \"sample\": false\n        }\n      ]\n    },\n    {\n      \"slug\": \"second-largest\",\n      \"title\": \"Second Largest Element\",\n      \"description\": \"Array ka doosra sabse bada DISTINCT element print karo.\\n\\n**Input:**\\n- Pehli line: `n`\\n- Doosri line: `n` integers\\n\\n**Output:** Doosra sabse bada alag (distinct) value. Kam se kam do alag values guaranteed hain.\\n\\n**Constraints:** 2 <= n <= 10^5\\n\\n**Example**\\n```\\nInput:\\n5\\n4 9 9 2 7\\nOutput: 7\\n```\",\n      \"difficulty\": \"MEDIUM\",\n      \"topic\": \"Arrays\",\n      \"published\": true,\n      \"testCases\": [\n        {\n          \"input\": \"5\\n4 9 9 2 7\\n\",\n          \"expectedOutput\": \"7\\n\",\n          \"sample\": true\n        },\n        {\n          \"input\": \"2\\n1 2\\n\",\n          \"expectedOutput\": \"1\\n\",\n          \"sample\": true\n        },\n        {\n          \"input\": \"4\\n-5 -1 -1 -9\\n\",\n          \"expectedOutput\": \"-5\\n\",\n          \"sample\": false\n        },\n        {\n          \"input\": \"4\\n10 10 3 10\\n\",\n          \"expectedOutput\": \"3\\n\",\n          \"sample\": false\n        }\n      ]\n    }\n  ]\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

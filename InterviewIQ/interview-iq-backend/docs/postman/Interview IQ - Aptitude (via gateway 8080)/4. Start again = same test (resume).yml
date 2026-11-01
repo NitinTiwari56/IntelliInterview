@@ -1,0 +1,18 @@
+info:
+  name: 4. Start again = same test (resume)
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{baseUrl}}/aptitude/tests"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

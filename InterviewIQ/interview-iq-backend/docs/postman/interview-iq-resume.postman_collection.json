@@ -1,0 +1,316 @@
+{
+  "info": {
+    "name": "Interview IQ - Resume (via gateway 8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"gw-test@example.com\",\n  \"password\": \"Strong@123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('token', pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Health (expect 200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/resume/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Target roles (8 roles)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/resume/target-roles",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "target-roles"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. ANALYZE (Body > Multipart Form: file = apna PDF, targetRole = Backend Engineer). Expect 200",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": []
+            },
+            {
+              "key": "targetRole",
+              "value": "Backend Engineer",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/resume/analyze",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "analyze"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. ANALYZE with a .txt/.docx file (expect 400 Unsupported file format)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": []
+            },
+            {
+              "key": "targetRole",
+              "value": "Backend Engineer",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/resume/analyze",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "analyze"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. History",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/resume/history",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "history"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Latest",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/resume/latest",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "latest"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7b. ROADMAP (checklist, undone pehle)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/resume/roadmap",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "roadmap"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7c. EDIT details: skills add karo (poora skills object bhejo). Phir 7b dobara: score badhna chahiye",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/resume/details",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "details"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"skills\": {\n    \"languages\": [\n      \"Java\",\n      \"Python\",\n      \"C++\"\n    ],\n    \"frameworks\": [\n      \"Spring Boot\"\n    ],\n    \"toolsAndDatabases\": [\n      \"MySQL\",\n      \"Git\",\n      \"Docker\"\n    ],\n    \"coreSubjects\": [\n      \"Data Structures\",\n      \"Algorithms\",\n      \"DBMS\",\n      \"OOP\"\n    ]\n  }\n}"
+        }
+      }
+    },
+    {
+      "name": "7d. EDIT: role badlo",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/resume/details",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "details"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"targetRole\": \"Backend Engineer\"\n}"
+        }
+      }
+    },
+    {
+      "name": "8. No token (expect 401)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/resume/history",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "resume",
+            "history"
+          ]
+        }
+      }
+    }
+  ]
+}

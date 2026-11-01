@@ -1,0 +1,37 @@
+info:
+  name: 6b. SKIP current (selectedIndex null)
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{baseUrl}}/aptitude/tests/{{testId}}/answer"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "questionIndex": {{qIndex}},
+        "selectedIndex": null
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: "var r = res.getBody();\r
+
+        if (r.testId) bru.setCollectionVar('testId', r.testId);\r
+
+        bru.setCollectionVar('qIndex', r.question ? r.question.index : '');"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

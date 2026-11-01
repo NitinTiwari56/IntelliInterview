@@ -1,0 +1,28 @@
+info:
+  name: 8. SUBMIT wrong (expect WRONG_ANSWER, failedCase)
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: "{{baseUrl}}/coding/problems/sum-of-two-numbers/submit"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "language": "python",
+        "sourceCode": "print(0)"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

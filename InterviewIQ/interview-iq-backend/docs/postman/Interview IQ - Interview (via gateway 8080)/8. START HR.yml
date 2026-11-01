@@ -1,0 +1,33 @@
+info:
+  name: 8. START HR
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: "{{baseUrl}}/interview/sessions/start"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "interviewType": "HR",
+        "maxQuestions": 2
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: bru.setCollectionVar('sessionId', res.getBody().sessionId);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

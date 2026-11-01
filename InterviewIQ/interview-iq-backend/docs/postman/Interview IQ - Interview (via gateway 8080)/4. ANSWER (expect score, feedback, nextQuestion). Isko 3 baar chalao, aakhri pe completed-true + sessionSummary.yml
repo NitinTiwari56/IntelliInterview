@@ -1,0 +1,27 @@
+info:
+  name: 4. ANSWER (expect score, feedback, nextQuestion). Isko 3 baar chalao, aakhri pe completed:true + sessionSummary
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{baseUrl}}/interview/sessions/{{sessionId}}/answers"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "answer": "A HashMap stores key-value pairs in an array of buckets. The key's hashCode decides the bucket, and collisions are handled with a linked list or a tree when a bucket grows large. Average get and put are O(1)."
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

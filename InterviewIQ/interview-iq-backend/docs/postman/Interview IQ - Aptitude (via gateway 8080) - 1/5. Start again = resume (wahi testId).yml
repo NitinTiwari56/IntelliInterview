@@ -1,0 +1,28 @@
+info:
+  name: 5. Start again = resume (wahi testId)
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{baseUrl}}/aptitude/tests"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: "var r = res.getBody();\r
+
+        if (r.testId) bru.setCollectionVar('testId', r.testId);\r
+
+        bru.setCollectionVar('qIndex', r.question ? r.question.index : '');"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -1,0 +1,28 @@
+info:
+  name: 6c. Stale questionIndex 99 (expect 409)
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{baseUrl}}/aptitude/tests/{{testId}}/answer"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "questionIndex": 99,
+        "selectedIndex": 0
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

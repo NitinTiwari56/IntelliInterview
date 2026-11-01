@@ -1,0 +1,28 @@
+info:
+  name: "4. ANALYZE (Body > Multipart Form: file = apna PDF, targetRole = Backend Engineer). Expect 200"
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{baseUrl}}/resume/analyze"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: multipart-form
+    data:
+      - name: file
+        type: file
+        value: []
+      - name: targetRole
+        type: text
+        value: Backend Engineer
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

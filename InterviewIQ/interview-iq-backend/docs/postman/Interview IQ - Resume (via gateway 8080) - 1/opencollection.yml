@@ -1,0 +1,28 @@
+opencollection: 1.0.0
+
+info:
+  name: Interview IQ - Resume (via gateway 8080) - 1
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  variables:
+    - name: baseUrl
+      value: http://localhost:8080
+    - name: token
+      value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJndy10ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IlNUVURFTlQiLCJpYXQiOjE3OTEzNjYzNDUsImV4cCI6MTc5MTQ1Mjc0NX0.FnTY2VwFlbqO0QocG8px5oqgjHE8RTS_vqZYPZcVolwGW08XDhu50W1_tRPzre3n
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

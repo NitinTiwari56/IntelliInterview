@@ -1,0 +1,30 @@
+opencollection: 1.0.0
+
+info:
+  name: Interview IQ - Interview (via gateway 8080)
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  variables:
+    - name: baseUrl
+      value: http://localhost:8080
+    - name: sessionId
+      value: 3358cb21-81a9-4a37-bfbe-bbb3a5fa8833
+    - name: token
+      value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJndy10ZXN0QGV4YW1wbGUuY29tIiwicm9sZSI6IlNUVURFTlQiLCJpYXQiOjE3OTE2MzIyNzAsImV4cCI6MTc5MTcxODY3MH0.lrOrDzC73xCr03eoof149hNjBupYSIpoZ3smfqYdkuk4wasEszIDF5Ppe6qaXAq6
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

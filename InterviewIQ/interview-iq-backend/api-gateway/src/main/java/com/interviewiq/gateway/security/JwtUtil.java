@@ -1,0 +1,32 @@
+package com.interviewiq.gateway.security;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * Gateway sirf token VERIFY karta hai (banata auth-service hai).
+ * Signature galat ya token expired ho toh parseToken exception (JwtException) throw karta hai.
+ */
+@Component
+public class JwtUtil {
+
+    private final SecretKey key;
+
+    public JwtUtil(@Value("${jwt.secret}") String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public Claims parseToken(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+}

@@ -1,0 +1,27 @@
+info:
+  name: "7d. EDIT: role badlo"
+  type: http
+  seq: 10
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/resume/details"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "targetRole": "Backend Engineer"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

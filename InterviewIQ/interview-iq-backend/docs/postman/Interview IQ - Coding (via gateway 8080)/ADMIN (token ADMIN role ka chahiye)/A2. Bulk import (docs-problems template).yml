@@ -1,0 +1,88 @@
+info:
+  name: A2. Bulk import (docs/problems template)
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/coding/admin/problems/import"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "problems": [
+          {
+            "slug": "count-vowels",
+            "title": "Count Vowels",
+            "description": "Ek string me kitne vowels (a, e, i, o, u) hain, ginke print karo.\n\n**Input:** Ek line mein lowercase letters aur spaces wali string.\n\n**Output:** Vowels ki ginti.\n\n**Constraints:** 1 <= length <= 1000\n\n**Example**\n```\nInput:  hello world\nOutput: 3\n```",
+            "difficulty": "EASY",
+            "topic": "Strings",
+            "published": true,
+            "testCases": [
+              {
+                "input": "hello world\n",
+                "expectedOutput": "3\n",
+                "sample": true
+              },
+              {
+                "input": "rhythm\n",
+                "expectedOutput": "0\n",
+                "sample": true
+              },
+              {
+                "input": "aeiou\n",
+                "expectedOutput": "5\n",
+                "sample": false
+              },
+              {
+                "input": "interview iq\n",
+                "expectedOutput": "5\n",
+                "sample": false
+              }
+            ]
+          },
+          {
+            "slug": "second-largest",
+            "title": "Second Largest Element",
+            "description": "Array ka doosra sabse bada DISTINCT element print karo.\n\n**Input:**\n- Pehli line: `n`\n- Doosri line: `n` integers\n\n**Output:** Doosra sabse bada alag (distinct) value. Kam se kam do alag values guaranteed hain.\n\n**Constraints:** 2 <= n <= 10^5\n\n**Example**\n```\nInput:\n5\n4 9 9 2 7\nOutput: 7\n```",
+            "difficulty": "MEDIUM",
+            "topic": "Arrays",
+            "published": true,
+            "testCases": [
+              {
+                "input": "5\n4 9 9 2 7\n",
+                "expectedOutput": "7\n",
+                "sample": true
+              },
+              {
+                "input": "2\n1 2\n",
+                "expectedOutput": "1\n",
+                "sample": true
+              },
+              {
+                "input": "4\n-5 -1 -1 -9\n",
+                "expectedOutput": "-5\n",
+                "sample": false
+              },
+              {
+                "input": "4\n10 10 3 10\n",
+                "expectedOutput": "3\n",
+                "sample": false
+              }
+            ]
+          }
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

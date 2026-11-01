@@ -1,0 +1,81 @@
+/* Aptitude pages. Uses the colours and helper classes from index.css (.glass, .btn, .blobs, .glow, .scrim, .modal, .rise, .track) */
+.apt-top{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:18px;padding:12px clamp(16px,4vw,48px);background:rgba(7,6,15,.6);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.apt-top .logo{font-size:18px;color:var(--ink)}
+.apt-top nav{display:flex;gap:18px;margin-left:10px}.apt-top nav a{color:var(--mut);text-decoration:none;font-size:14px}.apt-top nav a.active{color:var(--c)}
+.apt-user{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--mut)}
+.apt-main{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:clamp(20px,4vw,44px) clamp(16px,4vw,32px) 64px}
+.apt-main h1{font-size:clamp(24px,3vw,32px);max-width:none}
+.apt-main .sub{color:var(--mut);margin:6px 0 20px;font-size:15px}
+.apt-main .muted{color:var(--mut);font-size:13.5px;margin:10px 0 0}
+.apt-main .err{margin:0 0 14px;padding:10px 12px;border-radius:10px;background:rgba(255,107,91,.12);border:1px solid rgba(255,107,91,.4);color:#FFB4A8;font-size:14px}
+.apt-main .note{padding:10px 14px;border-radius:12px;background:rgba(255,184,77,.1);border-left:3px solid var(--a);color:var(--ink);font-size:14px;margin:8px 0 16px}
+.apt-main .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.apt-main a.btn{text-decoration:none;display:inline-block}
+.btn.on{border-color:var(--a);color:var(--a)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.apt-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.apt-card{padding:24px}.apt-card h2{font-size:19px;margin-bottom:14px}
+.apt-rules{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px;color:var(--mut);font-size:14.5px}.apt-rules li::before{content:"✓ ";color:var(--c);font-weight:700}
+.apt-bars{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.apt-bars li{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:10px;font-size:14px}.apt-bars small{color:var(--mut)}.apt-bars em{font-style:normal;font-weight:700;text-align:right}
+.apt-bars .track i{transform:scaleX(0)}.apt-bars .weak em{color:var(--weak)}
+.apt-table{display:grid;gap:8px}.apt-row{display:grid;grid-template-columns:1.6fr .7fr .6fr auto;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.04);font-size:14.5px}
+.apt-row .btn{padding:6px 16px}
+.apt-center{max-width:460px;margin:12vh auto 0;padding:34px;text-align:center}.apt-center h2{font-size:21px;margin:14px 0 6px}.apt-center .sub{margin-bottom:0}.apt-center .row{justify-content:center}
+.apt-spin{display:inline-block;width:38px;height:38px;border:3px solid rgba(255,255,255,.15);border-top-color:var(--c);border-radius:50%;animation:spin .8s linear infinite}
+/* test */
+.apt-test{display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:start}
+.apt-q{padding:26px;animation:pop .35s var(--ease)}
+.apt-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13.5px;color:var(--mut)}
+.chip{padding:2px 12px;border-radius:99px;border:1px solid var(--line);color:var(--ink);font-size:12.5px}.chip.alt{color:var(--c);border-color:rgba(61,224,230,.4)}
+.apt-qt{font:600 19px/1.45 "Bricolage Grotesque","DM Sans",sans-serif;letter-spacing:0;margin:16px 0 18px}
+.apt-opts{display:grid;gap:10px}
+.apt-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:13px 16px;border-radius:14px;border:1.5px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font:400 15.5px "DM Sans",sans-serif;cursor:pointer;transition:transform .2s var(--ease),border-color .2s,background .2s}
+.apt-opt b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.08);font-size:13px}
+.apt-opt:hover{transform:translateX(4px);border-color:rgba(124,92,255,.7)}
+.apt-opt.sel{border-color:var(--c);background:rgba(61,224,230,.1)}.apt-opt.sel b{background:var(--c);color:#07060F}
+.apt-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.apt-actions .solid{margin-left:auto}
+.apt-side{position:sticky;top:76px;padding:20px}
+.apt-timer{display:flex;justify-content:space-between;align-items:baseline;color:var(--mut);font-size:14px}.apt-timer b{font:800 34px "Bricolage Grotesque",sans-serif;color:var(--ink);font-variant-numeric:tabular-nums}
+.apt-timer.low b{color:var(--weak);animation:pulse .6s infinite alternate}
+.apt-prog{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:12px 0 4px}.apt-prog i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--v),var(--c));transition:width .4s var(--ease)}
+.apt-pal{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0}
+.apt-pn{aspect-ratio:1;border-radius:10px;border:1.5px solid var(--line);background:rgba(255,255,255,.04);color:var(--mut);font:700 13px "DM Sans",sans-serif;cursor:pointer;transition:transform .15s}
+.apt-pn:hover{transform:scale(1.08)}.apt-pn.done{background:rgba(61,224,230,.18);border-color:rgba(61,224,230,.6);color:var(--ink)}
+.apt-pn.flag{border-color:var(--a);box-shadow:inset 0 0 0 1px var(--a)}.apt-pn.cur{background:var(--v);border-color:var(--v);color:#fff}
+.apt-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--mut);margin-bottom:16px}.apt-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+.d1{background:rgba(61,224,230,.6)}.d2{background:var(--a)}.d3{background:rgba(255,255,255,.2)}
+/* result */
+.apt-hero{display:flex;flex-wrap:wrap;align-items:center;gap:28px}
+.apt-ring{position:relative;width:150px;height:150px;flex:none}.apt-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rg-bg{fill:none;stroke:rgba(255,255,255,.1);stroke-width:9}.rg-fg{fill:none;stroke:var(--c);stroke-width:9;stroke-linecap:round;transition:stroke-dasharray 1.4s var(--ease);filter:drop-shadow(0 0 8px var(--c))}
+.apt-ring>div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.apt-ring b{font:800 30px "Bricolage Grotesque",sans-serif}.apt-ring span{font-size:12px;color:var(--mut)}
+.apt-score{flex:1;min-width:200px}.apt-score h2{font-size:22px;margin:0 0 12px}.apt-score h2 b{font:800 48px "Bricolage Grotesque",sans-serif;background:linear-gradient(135deg,#fff,var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+.apt-pills{display:flex;flex-wrap:wrap;gap:8px}.apt-pills span{padding:3px 12px;border-radius:99px;font-size:13px;border:1px solid var(--line)}
+.p-ok{color:#6EE7A8;border-color:rgba(110,231,168,.4)!important}.p-bad{color:var(--weak);border-color:rgba(255,107,91,.4)!important}.p-skip{color:var(--a);border-color:rgba(255,184,77,.4)!important}
+.apt-hero .row{margin:0;width:100%}
+.apt-review{margin-top:28px;display:grid;gap:14px}
+.apt-tabs{display:inline-flex;padding:4px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--line);justify-self:start}
+.apt-tabs button{padding:7px 18px;border:0;border-radius:99px;background:none;color:var(--mut);font:700 14px "DM Sans",sans-serif;cursor:pointer}.apt-tabs button[aria-selected="true"]{background:linear-gradient(135deg,var(--v),#4F8BFF);color:#fff}
+.apt-rv{padding:20px}.apt-rv h3{font:600 17px/1.45 "Bricolage Grotesque","DM Sans",sans-serif;letter-spacing:0;margin:12px 0}
+.verdict{margin-left:auto;font-weight:700}.verdict.ok{color:#6EE7A8}.verdict.bad{color:var(--weak)}.verdict.skip{color:var(--a)}
+.apt-ro{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.apt-ro li{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);font-size:14.5px}
+.apt-ro b{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.08);font-size:12px}
+.apt-ro em{margin-left:auto;font-style:normal;font-size:12px;color:var(--mut)}
+.apt-ro li.right{border-color:rgba(110,231,168,.6);background:rgba(110,231,168,.1)}.apt-ro li.right em{color:#6EE7A8}
+.apt-ro li.wrong{border-color:rgba(255,107,91,.6);background:rgba(255,107,91,.1)}.apt-ro li.wrong em{color:var(--weak)}
+.expl{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:rgba(124,92,255,.12);color:var(--ink);font-size:14.5px}.expl b{color:var(--c)}
+@media(max-width:860px){.apt-grid,.apt-test{grid-template-columns:1fr}.apt-side{position:static;order:-1}.apt-bars li{grid-template-columns:110px 1fr 40px}.apt-row{grid-template-columns:1fr auto}.apt-row span:nth-child(3){display:none}.apt-actions .solid{margin-left:0}}
+@media(prefers-reduced-motion:reduce){.apt-q,.apt-timer.low b{animation:none}.apt-bars .track i{transform:scaleX(1)}}
+/* ---- one-question-at-a-time test (new backend) ---- */
+.apt-main.wide{max-width:1500px}
+.apt-one{max-width:780px;margin:0 auto}
+.apt-steps{display:flex;gap:4px;margin-bottom:14px}
+.apt-steps i{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.12);transition:background .3s}
+.apt-steps i.done{background:rgba(61,224,230,.6)}.apt-steps i.now{background:var(--v);box-shadow:0 0 10px var(--v)}
+.apt-qhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.apt-ring2{position:relative;flex:none;width:64px;height:64px}.apt-ring2 svg{width:100%;height:100%;transform:rotate(-90deg)}
+.r-bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:5}.r-fg{fill:none;stroke:var(--c);stroke-width:5;stroke-linecap:round;transition:stroke-dasharray .3s linear}
+.apt-ring2 b{position:absolute;inset:0;display:grid;place-items:center;font:700 13px "DM Sans",sans-serif;font-variant-numeric:tabular-nums}
+.apt-ring2.low .r-fg{stroke:var(--weak)}.apt-ring2.low b{color:var(--weak);animation:pulse .6s infinite alternate}
+.apt-opt:disabled{opacity:.7;cursor:wait}
+@media(prefers-reduced-motion:reduce){.apt-ring2.low b{animation:none}}

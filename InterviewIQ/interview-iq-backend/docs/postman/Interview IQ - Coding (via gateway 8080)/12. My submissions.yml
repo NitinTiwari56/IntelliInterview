@@ -1,0 +1,19 @@
+info:
+  name: 12. My submissions
+  type: http
+  seq: 13
+
+http:
+  method: GET
+  url: "{{baseUrl}}/coding/submissions"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

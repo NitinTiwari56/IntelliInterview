@@ -1,0 +1,28 @@
+info:
+  name: 6. RUN correct python (expect ACCEPTED, 2 PASSED) - 5 sec wait karke
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{baseUrl}}/coding/problems/sum-of-two-numbers/run"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "language": "python",
+        "sourceCode": "a, b = map(int, input().split())\nprint(a + b)"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

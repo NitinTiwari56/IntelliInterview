@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 3000        # ms - service band ho toh jaldi fail
+        response-timeout: 60s        # AI wale endpoints (Groq) slow ho sakte hain
+      default-filters:
+        # Auth service apna CORS header bhi bhejti hai, gateway bhi. Dono aaye toh browser reject kar deta hai.
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        # Path same rehta hai (strip nahi hota): /auth/login -> auth-service ke /auth/login
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/auth/**
+
+        - id: resume-service
+          uri: ${RESUME_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/resume/**
+
+        - id: coding-service
+          uri: ${CODING_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/coding/**
+
+        - id: aptitude-service
+          uri: ${APTITUDE_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/aptitude/**
+
+        - id: interview-service
+          uri: ${INTERVIEW_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/interview/**
+
+        - id: analytics-service
+          uri: ${ANALYTICS_SERVICE_URL:http://localhost:8086}
+          predicates:
+            - Path=/analytics/**
+
+        # JAAN-BUJH KE route NAHI hai:
+        #  - aptitude-question-service (8091) -> internal, answers leak ho jayenge
+        #  - llm-gateway (8090)               -> internal, Groq quota/cost
+
+jwt:
+  # Auth service ke jwt.secret se EXACT same hona chahiye, warna har token invalid lagega.
+  secret: ${JWT_SECRET:interview-iq-dev-secret-change-me-please-32chars-min}
+
+logging:
+  level:
+    com.interviewiq: INFO
